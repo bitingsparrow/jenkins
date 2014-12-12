@@ -37,7 +37,7 @@ public class InitReactorRunner {
         ExecutorService es;
         if (Jenkins.PARALLEL_LOAD)
             es = new ThreadPoolExecutor(
-                TWICE_CPU_NUM, TWICE_CPU_NUM, 5L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new DaemonThreadFactory());
+                    DEFAULT_MULT_CPU_NUM, DEFAULT_MULT_CPU_NUM, 5L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new DaemonThreadFactory());
         else
             es = Executors.newSingleThreadExecutor(new NamingThreadFactory(new DaemonThreadFactory(), "InitReactorRunner"));
         try {
@@ -91,9 +91,9 @@ public class InitReactorRunner {
     protected void onInitMilestoneAttained(InitMilestone milestone) {
     }
 
-    private static final int TWICE_CPU_NUM = Integer.getInteger(
+    private static final int DEFAULT_MULT_CPU_NUM = Integer.getInteger(
             InitReactorRunner.class.getName()+".concurrency",
-            Runtime.getRuntime().availableProcessors() * 2);
+            Runtime.getRuntime().availableProcessors() * 5);
 
     private static final Logger LOGGER = Logger.getLogger(InitReactorRunner.class.getName());
 }
